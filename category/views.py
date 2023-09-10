@@ -77,6 +77,11 @@ def create_category_from_list(request):
 @api_view(['GET'])
 def category_by_id(request, pk):
     
+    
     item = Category.objects.get(pk=pk)
+    # check if item exists 
+    if not item:
+        return Response(status=status.HTTP_404_NOT_FOUND, data={'error': 'No Category found with ID = ' + pk})
+
     serializer = CategorySerializer(item)
     return Response(serializer.data, status=status.HTTP_200_OK)
